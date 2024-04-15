@@ -162,7 +162,7 @@ while True:
     else:
         print("Invalid input: Input 1, 2, or 3\n")
         continue
-
+ 
 rootImage = rootImage.resize(new_size)
 logging.info(f"rootImage resized to {new_size}")
 
@@ -178,7 +178,16 @@ else:
 logging.info(f"Offset set to {offset}, Pasting rootImage on background")    
 background.paste(rootImage, (int((600 - rootImage.width)/2) + offset, int((600 - rootImage.height)/2) + offset)) # Paste the right half on the right
 logging.info("rootImage pasted on background, showing image")
-background.show() # Show the image
+
+# SETTING TO A4 SIZE ----------------------------------------------------------------
+finalPage = Image.new('RGB', (1150, 1626), (255,255,255))  # Create A4 page
+logging.info("A4 page created")
+
+#past background at the top left corder of the A4 page
+finalPage.paste(background, (50, 50))  # Paste the right half on the right
+logging.info("background pasted on A4 page, showing image")
+
+finalPage.show() # Show the image
 
 # SAVING IMAGE ---------------------------------------------------------------------
 while True:
@@ -186,7 +195,8 @@ while True:
     if save == "y": # If input is y
         logging.info("removing file extention and saving image as .png")
         fileName = fileName[:fileName.index(".")] # remove extention from file name 
-        rootImage.save(fileName + "_edited.png") # Save the image
+        background.save(fileName + "_edited.png") # Save the image
+        finalPage.save(fileName + "_edited(A4).png")
         logging.info(f"Image saved as {fileName}_edited.png")
         break # Break the loop
     
